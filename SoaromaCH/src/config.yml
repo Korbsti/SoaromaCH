@@ -1,0 +1,46 @@
+# -------------------
+# SoaromaCM
+# Version 0.0.5
+# -------------------
+# To switch back to default chat, the command would be /ch global
+# This takes the variable from defaultGlobal and that would be the "global" channel
+# You can change that in any way you want too
+# Anyone with the channel permission will be able to recieve messages as well as send messages to that specific channel
+# -------------------
+# To create another channel the format would be 
+# channels:
+#  name:
+#    defaultGlobalPermission: ch.defaultGlobal.use
+#    defaultGlobal: global
+#    testChannel:
+#      permission: ch.use.testChannel
+#      prefix: '&8[&4testChannel&8]'
+#      sendRegardlessOfCurrentChannel: true
+#      enableDistanceMessage: false
+#      distanceMessage: 25
+#    anotherChannel:
+#      permission: ch.use.anotherChannel
+#      prefix: '&8[&4anotherChannel&8]'
+#      sendRegardlessOfCurrentChannel: true
+#      enableDistanceMessage: false
+#      distanceMessage: 25
+#    ThirdChannel:
+#      permission: ch.use.ThirdChannel
+#      prefix: '&8[&4anThirdChannel&8]'
+#      sendRegardlessOfCurrentChannel: true
+#      enableDistanceMessage: false
+#      distanceMessage: 25
+# -------------------
+# enableDistanceMessage means if TRUE then send the message to the player within the channel in X amount of blocks
+# distanceMessage is the amount of blocks
+# -------------------
+# To switch to that specific channel, the command would be /ch (channel name), for example /ch testChannel
+# To switch back to normal chat, type /ch global
+# The permission to switch back to normal chat would be defaultGlobalPermission
+# -------------------
+# The variable sendRegardlessOfCurrentChannel means that if two players has the same permission for the channel
+# and one player is in the current channel while the other is not in the current channel
+# if this variable is FALSE it will only send messages to players whose channel and permission is the same
+# The only disclaimers is that a channel cannot be called "defaultGlobal", "defaultGlobalPermission" and it cannot end with ".permission" or ".prefix"
+# or start with "channels.name."
+# As these names will mess up the system internally, everything else you may use, which is a lot... Happy Channeling!
