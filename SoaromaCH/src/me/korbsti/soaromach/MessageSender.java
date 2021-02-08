@@ -1,5 +1,6 @@
 package me.korbsti.soaromach;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -15,10 +16,14 @@ public class MessageSender {
 	}
 
 	public String format(String channelPrefix, Player p, String message) {
-		String format = plugin.getConfig().getString("messageFormat");
+		String format = plugin.getConfig()
+				.getString("channels.name." + plugin.currentChannel.get(p.getName()) + ".messageFormat");
 		String format1 = format.replace("{channel-prefix}", channelPrefix);
 		String format2 = format1.replace("{player}", p.getDisplayName());
 		String format3 = format2.replace("{message}", message);
+		if (plugin.hasPlaceholder) {
+			return (PlaceholderAPI.setPlaceholders(p.getPlayer(), format3));
+		}
 		return format3;
 	}
 
@@ -73,17 +78,25 @@ public class MessageSender {
 									} else {
 										if (plugin.currentChannel.get(playerd.getName()) == plugin.currentChannel
 												.get(player.getName())) {
-											playerd.sendMessage(ChatColor.translateAlternateColorCodes('&',
-													format(plugin.getConfig().getString("channels.name."+ plugin.currentChannel.get(player.getName())) + ".prefix", player, message)));
+											playerd.sendMessage(
+													ChatColor.translateAlternateColorCodes('&', format(
+															plugin.getConfig()
+																	.getString("channels.name." + plugin.currentChannel
+																			.get(player.getName()))
+																	+ ".prefix",
+															player, message)));
 										}
 									}
 
 								}
-								player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-										format(prefix, player, message)));
-									Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&',
-											format(plugin.getConfig().getString("channels.name."+ plugin.currentChannel.get(player.getName())  + ".prefix"), player, message)));
-								
+								player.sendMessage(
+										ChatColor.translateAlternateColorCodes('&', format(prefix, player, message)));
+								Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', format(
+										plugin.getConfig()
+												.getString("channels.name."
+														+ plugin.currentChannel.get(player.getName()) + ".prefix"),
+										player, message)));
+
 							}
 						}
 

@@ -18,18 +18,21 @@
 #      sendRegardlessOfCurrentChannel: true
 #      enableDistanceMessage: false
 #      distanceMessage: 25
+#      messageFormat: "{channel-prefix} {player} &8--> &3{message}"
 #    anotherChannel:
 #      permission: ch.use.anotherChannel
 #      prefix: '&8[&4anotherChannel&8]'
 #      sendRegardlessOfCurrentChannel: true
 #      enableDistanceMessage: false
 #      distanceMessage: 25
+#      messageFormat: "{channel-prefix} {player} &8--> &3{message}"
 #    ThirdChannel:
 #      permission: ch.use.ThirdChannel
 #      prefix: '&8[&4anThirdChannel&8]'
 #      sendRegardlessOfCurrentChannel: true
 #      enableDistanceMessage: false
 #      distanceMessage: 25
+#      messageFormat: "{channel-prefix} {player} &8--> &3{message}"
 # -------------------
 # enableDistanceMessage means if TRUE then send the message to the player within the channel in X amount of blocks
 # distanceMessage is the amount of blocks

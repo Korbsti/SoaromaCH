@@ -1,5 +1,5 @@
 package me.korbsti.soaromach;
-
+import me.clip.placeholderapi.PlaceholderAPI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +19,7 @@ public class Main extends JavaPlugin implements Listener {
 	public Configuration config = new Configuration();
 	public Set<String> allKeys;
 	public ArrayList<String> channels;
+	public Boolean hasPlaceholder = false;
 	@Override
 	public void onEnable() {
 		PluginManager pm = Bukkit.getPluginManager();
@@ -35,6 +36,12 @@ public class Main extends JavaPlugin implements Listener {
 			}
 		}
 		channels.add(getConfig().getString("channels.name.defaultGlobal"));
+		
+		if( Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
+            //Registering placeholder will be use here
+			hasPlaceholder = true;
+        }
+		
 	}
 	@Override
 	public void onDisable() {

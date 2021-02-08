@@ -12,7 +12,6 @@ public class Configuration {
 		plugin.getConfig().addDefault("noPerm", "&8[&3CH&8] &3No Permission");
 		plugin.getConfig().addDefault("invalidChannel", "&8[&3CH&8] &3Invalid channel!");
 		plugin.getConfig().addDefault("switchedChannel", "&8[&3CH&8] &3Channel set to &2{channel-name}");
-		plugin.getConfig().addDefault("messageFormat", "{channel-prefix} {player} &8--> &3{message}");
 		plugin.getConfig().addDefault("channels.name", "testChannel");
 		plugin.getConfig().addDefault("channels.name.defaultGlobal", "global");
 		plugin.getConfig().addDefault("channels.name.defaultGlobalPermission", "ch.defaultGlobal.use");
@@ -21,6 +20,7 @@ public class Configuration {
 		plugin.getConfig().addDefault("channels.name.testChannel.sendRegardlessOfCurrentChannel", true);
 		plugin.getConfig().addDefault("channels.name.testChannel.enableDistanceMessage", false);
 		plugin.getConfig().addDefault("channels.name.testChannel.distanceMessage", 25);
+		plugin.getConfig().addDefault("channels.name.testChannel.messageFormat", "{channel-prefix} {player} &8--> &3{message}");
 		plugin.getConfig().options().copyDefaults(true);
 		plugin.saveConfig();
 	}
