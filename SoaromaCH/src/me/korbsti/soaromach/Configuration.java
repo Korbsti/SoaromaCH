@@ -21,6 +21,8 @@ public class Configuration {
 		plugin.getConfig().addDefault("channels.name.testChannel.enableDistanceMessage", false);
 		plugin.getConfig().addDefault("channels.name.testChannel.distanceMessage", 25);
 		plugin.getConfig().addDefault("channels.name.testChannel.messageFormat", "{channel-prefix} {player} &8--> &3{message}");
+		plugin.getConfig().addDefault("channels.name.testChannel.chlistDisplayAll", true);
+		plugin.getConfig().addDefault("channels.name.testChannel.channelExists", true);
 		plugin.getConfig().options().copyDefaults(true);
 		plugin.saveConfig();
 	}

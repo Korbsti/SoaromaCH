@@ -1,4 +1,5 @@
 package me.korbsti.soaromach;
+
 import me.clip.placeholderapi.PlaceholderAPI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +11,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
 public class Main extends JavaPlugin implements Listener {
 	public HashMap<String, Boolean> derp = new HashMap<String, Boolean>();
 	public HashMap<String, String> currentChannel = new HashMap<String, String>();
@@ -20,6 +20,7 @@ public class Main extends JavaPlugin implements Listener {
 	public Set<String> allKeys;
 	public ArrayList<String> channels;
 	public Boolean hasPlaceholder = false;
+
 	@Override
 	public void onEnable() {
 		PluginManager pm = Bukkit.getPluginManager();
@@ -30,19 +31,39 @@ public class Main extends JavaPlugin implements Listener {
 		getCommand("chlist").setExecutor(new Commands(this));
 		Set<String> allKeys = getConfig().getKeys(true);
 		channels = new ArrayList<String>();
-		for(String key : allKeys) {
-			if(!key.endsWith("defaultGlobal") && !key.endsWith("defaultGlobalPermission") && key.startsWith("channels.name.") && !key.endsWith(".permission") && !key.endsWith(".prefix") && !key.endsWith(".sendRegardlessOfCurrentChannel")) {
+		for (String key : allKeys) {
+			if (!key.endsWith("defaultGlobal") && !key.endsWith("defaultGlobalPermission")
+					&& key.startsWith("channels.name.") && !key.endsWith(".permission") && !key.endsWith(".prefix")
+					&& !key.endsWith(".sendRegardlessOfCurrentChannel") && !key.endsWith(".distanceMessage")
+					&& !key.endsWith(".enableDistanceMessage") && !key.endsWith(".messageFormat")
+					&& !key.endsWith(".chlistDisplayAll") && !key.endsWith(".channelExists")) {
 				channels.add(key.replace("channels.name.", ""));
 			}
 		}
 		channels.add(getConfig().getString("channels.name.defaultGlobal"));
-		
-		if( Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
-            //Registering placeholder will be use here
+		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			hasPlaceholder = true;
-        }
-		
+		}
+		int dd = channels.size() - 1;
+		int holder = 0;
+		while (dd != holder) {
+			for (int x = 0; x != channels.size(); x++) {
+				String channel = channels.get(x);
+				if (!getConfig().getBoolean("channels.name." + channel + ".channelExists")
+						&& !channel.equals(getConfig().getString("channels.name.defaultGlobal"))) {
+					for (int x1 = 0; x1 != channels.size(); x1++) {
+						if (channels.get(x).equals(channel)) {
+							channels.remove(x);
+							x1 = 0;
+							x = 0;
+						}
+					}
+				}
+			}
+			holder++;
+		}
 	}
+
 	@Override
 	public void onDisable() {
 		reloadConfig();
