@@ -28,16 +28,11 @@ public class Commands implements CommandExecutor {
 					for (int x = 0; x != send.size(); x++) {
 						String channel = send.get(x);
 						if (plugin.getConfig().getBoolean("channels.name." + channel + ".chlistDisplayAll") == false
-								&& !channel.equals(plugin.getConfig().getString("channels.name.defaultGlobal"))) {
-							for (int x1 = 0; x1 != send.size(); x1++) {
-								if (!sender.hasPermission("channels.name." + channel + ".permission")) {
+								&& !channel.equals(plugin.getConfig().getString("channels.name.defaultGlobal")) && !sender.hasPermission(plugin.getConfig().getString("channels.name." + channel + ".permission"))) {
 									if (send.get(x).equals(channel)) {
 										send.remove(x);
 										x = 0;
-										x1 = 0;
 									}
-								}
-							}
 						}
 					}
 					holder++;
