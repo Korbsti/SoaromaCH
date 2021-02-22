@@ -25,6 +25,7 @@ public class Main extends JavaPlugin implements Listener {
 	public void onEnable() {
 		PluginManager pm = Bukkit.getPluginManager();
 		pm.registerEvents(new ChatChannel(this), this);
+		pm.registerEvents(new Join(this), this);
 		config.setConfig(this);
 		getCommand("ch").setExecutor(new Commands(this));
 		getCommand("chreload").setExecutor(new Commands(this));
