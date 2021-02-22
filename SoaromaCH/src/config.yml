@@ -1,6 +1,6 @@
 # -------------------
 # SoaromaCM
-# Version 0.0.12
+# Version 0.0.13
 # -------------------
 # To switch back to default chat, the command would be /ch global
 # This takes the variable from defaultGlobal and that would be the "global" channel
@@ -10,8 +10,11 @@
 # To create another channel the format would be 
 # channels:
 #  name:
-#    defaultGlobalPermission: ch.defaultGlobal.use
 #    defaultGlobal: global
+#    channelUponJoining: global
+#    defaultGlobalPermission: ch.defaultGlobal.use
+#    enableGlobalMessageFormat: true
+#    defaultGlobalMessageFormat: '&8[&2Global&8]&f {player} &8--> &f{message}'
 #    testChannel:
 #      permission: ch.use.testChannel
 #      prefix: '&8[&4testChannel&8]'
@@ -39,6 +42,11 @@
 #      messageFormat: "{channel-prefix} {player} &8--> &3{message}"
 #      chlistDisplayAll: true
 #      channelExists: true
+# -------------------
+# channelUponJoining is the channel a player is put into upon joining
+# -------------------
+# enableGlobalMessageFormat meaning if true, then enable the formatting for 'global'/default chat
+# defaultGlobalMessageFormat is the message format for regular chat
 # -------------------
 # enableDistanceMessage means if TRUE then send the message to the player within the channel in X amount of blocks
 # distanceMessage is the amount of blocks

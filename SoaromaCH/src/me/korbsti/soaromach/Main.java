@@ -20,7 +20,7 @@ public class Main extends JavaPlugin implements Listener {
 	public Set<String> allKeys;
 	public ArrayList<String> channels;
 	public Boolean hasPlaceholder = false;
-
+	public Boolean enableGlobalChat = false;
 	@Override
 	public void onEnable() {
 		PluginManager pm = Bukkit.getPluginManager();
@@ -36,10 +36,13 @@ public class Main extends JavaPlugin implements Listener {
 					&& key.startsWith("channels.name.") && !key.endsWith(".permission") && !key.endsWith(".prefix")
 					&& !key.endsWith(".sendRegardlessOfCurrentChannel") && !key.endsWith(".distanceMessage")
 					&& !key.endsWith(".enableDistanceMessage") && !key.endsWith(".messageFormat")
-					&& !key.endsWith(".chlistDisplayAll") && !key.endsWith(".channelExists")) {
+					&& !key.endsWith(".chlistDisplayAll") && !key.endsWith(".channelExists")
+					&& !key.endsWith(".defaultGlobalMessageFormat") && !key.endsWith(".enableGlobalMessageFormat")
+					&& !key.endsWith(".channelUponJoining")) {
 				channels.add(key.replace("channels.name.", ""));
 			}
 		}
+		enableGlobalChat = getConfig().getBoolean("channels.name.enableGlobalMessageFormat");
 		channels.add(getConfig().getString("channels.name.defaultGlobal"));
 		if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
 			hasPlaceholder = true;

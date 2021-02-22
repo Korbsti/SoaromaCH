@@ -14,7 +14,10 @@ public class Configuration {
 		plugin.getConfig().addDefault("switchedChannel", "&8[&3CH&8] &3Channel set to &2{channel-name}");
 		plugin.getConfig().addDefault("channels.name", "testChannel");
 		plugin.getConfig().addDefault("channels.name.defaultGlobal", "global");
+		plugin.getConfig().addDefault("channels.name.channelUponJoining", "global");
 		plugin.getConfig().addDefault("channels.name.defaultGlobalPermission", "ch.defaultGlobal.use");
+		plugin.getConfig().addDefault("channels.name.enableGlobalMessageFormat", false);
+		plugin.getConfig().addDefault("channels.name.defaultGlobalMessageFormat", "&8{&2Global&8}&f {player} &8--> &3{message}");
 		plugin.getConfig().addDefault("channels.name.testChannel.permission", "ch.use.testChannel");
 		plugin.getConfig().addDefault("channels.name.testChannel.prefix", "&8[&4testChannel&8]");
 		plugin.getConfig().addDefault("channels.name.testChannel.sendRegardlessOfCurrentChannel", true);
