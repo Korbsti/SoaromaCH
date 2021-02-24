@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+
 public class ChatChannel implements Listener {
 	Main plugin;
 
@@ -22,9 +24,10 @@ public class ChatChannel implements Listener {
 		}
 		String perm = "permission";
 		if (plugin.currentChannel.get(playerName) != plugin.getConfig().getString("channels.name.defaultGlobal")) {
-			if (plugin.currentChannel.get(playerName).contains(plugin.currentChannel.get(playerName))) {
-				perm = plugin.getConfig()
-						.getString("channels.name." + plugin.currentChannel.get(playerName) + ".permission");
+			perm = plugin.getConfig()
+					.getString("channels.name." + plugin.currentChannel.get(playerName) + ".permission");
+			if (perm == null) {
+				return;
 			}
 			plugin.chatChannel.messageChannelSender(e.getPlayer(), e.getMessage(), perm);
 			e.setCancelled(true);
@@ -35,7 +38,12 @@ public class ChatChannel implements Listener {
 			String displayMessage = plugin.getConfig().getString("channels.name.defaultGlobalMessageFormat")
 					.replace("{player}", e.getPlayer().getDisplayName()).replace("{message}", e.getMessage());
 			for (Player p : Bukkit.getOnlinePlayers()) {
-				p.sendMessage(ChatColor.translateAlternateColorCodes('&', displayMessage));
+				if (plugin.hasPlaceholder) {
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+							PlaceholderAPI.setPlaceholders(p.getPlayer(), displayMessage)));
+				} else {
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', displayMessage));
+				}
 			}
 			Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', displayMessage));
 			e.setCancelled(true);
