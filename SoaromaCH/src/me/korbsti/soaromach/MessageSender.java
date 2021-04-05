@@ -16,8 +16,7 @@ public class MessageSender {
 	}
 
 	public String format(String channelPrefix, Player p, String message) {
-		String format = plugin.getConfig()
-				.getString("channels.name." + plugin.currentChannel.get(p.getName()) + ".messageFormat");
+		String format = plugin.getConfig().getString("channels.name." + plugin.currentChannel.get(p.getName()) + ".messageFormat");
 		String format1 = format.replace("{channel-prefix}", channelPrefix);
 		String format2 = format1.replace("{player}", p.getDisplayName());
 		String format3 = format2.replace("{message}", message);
@@ -29,96 +28,66 @@ public class MessageSender {
 
 	public void messageChannelSender(Player player, String message, String permission) {
 		String prefixChannel = null;
-		for (Player p : Bukkit.getOnlinePlayers()) {
+		for (Player p: Bukkit.getOnlinePlayers()) {
 			String name = p.getName();
 			if (plugin.currentChannel.get(name) == null) {
 				plugin.currentChannel.put(name, plugin.getConfig().getString("channels.name.defaultGlobal"));
 			}
 			if (p.hasPermission(permission)) {
-				if (!plugin.getConfig().getBoolean(
-						"channels.name." + plugin.currentChannel.get(player.getName()) + ".enableDistanceMessage")) {
+				if (!plugin.getConfig().getBoolean("channels.name." + plugin.currentChannel.get(player.getName()) + ".enableDistanceMessage")) {
 
-					if (permission == plugin.getConfig().getString(
-							"channels.name." + plugin.currentChannel.get(player.getName()) + ".permission")) {
-						prefixChannel = plugin.getConfig()
-								.getString("channels.name." + plugin.currentChannel.get(player.getName()) + ".prefix");
+					if (permission == plugin.getConfig().getString("channels.name." + plugin.currentChannel.get(player.getName()) + ".permission")) {
+						prefixChannel = plugin.getConfig().getString("channels.name." + plugin.currentChannel.get(player.getName()) + ".prefix");
 					}
-					if (plugin.getConfig().getBoolean("channels.name." + plugin.currentChannel.get(player.getName())
-							+ ".sendRegardlessOfCurrentChannel") == true) {
+					if (plugin.getConfig().getBoolean("channels.name." + plugin.currentChannel.get(player.getName()) + ".sendRegardlessOfCurrentChannel") == true) {
 						p.sendMessage(
-								ChatColor.translateAlternateColorCodes('&', format(prefixChannel, player, message)));
+						ChatColor.translateAlternateColorCodes('&', format(prefixChannel, player, message)));
 					} else {
 						if (plugin.currentChannel.get(p.getName()) == plugin.currentChannel.get(player.getName())) {
-							p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-									format(prefixChannel, player, message)));
+							p.sendMessage(ChatColor.translateAlternateColorCodes('&', format(prefixChannel, player, message)));
 						}
 					}
 
 				} else {
-					Double dis = plugin.getConfig().getDouble(
-							"channels.name." + plugin.currentChannel.get(player.getName()) + ".distanceMessage");
+					Double dis = plugin.getConfig().getDouble("channels.name." + plugin.currentChannel.get(player.getName()) + ".distanceMessage");
 					Bukkit.getScheduler().runTask(plugin, new Runnable() {
 
 						@Override
 						public void run() {
 							String prefix = null;
-							for (Entity entity : player.getNearbyEntities(dis, dis, dis)) {
+							for (Entity entity: player.getNearbyEntities(dis, dis, dis)) {
 								if (entity instanceof Player) {
 									Player playerd = (Player) entity;
-									if (permission == plugin.getConfig().getString("channels.name."
-											+ plugin.currentChannel.get(player.getName()) + ".permission")) {
-										prefix = plugin.getConfig().getString("channels.name."
-												+ plugin.currentChannel.get(player.getName()) + ".prefix");
+									if (permission == plugin.getConfig().getString("channels.name." + plugin.currentChannel.get(player.getName()) + ".permission")) {
+										prefix = plugin.getConfig().getString("channels.name." + plugin.currentChannel.get(player.getName()) + ".prefix");
 									}
-									if (plugin.getConfig()
-											.getBoolean("channels.name." + plugin.currentChannel.get(player.getName())
-													+ ".sendRegardlessOfCurrentChannel") == true) {
-										playerd.sendMessage(ChatColor.translateAlternateColorCodes('&',
-												format(prefix, player, message)));
+									if (plugin.getConfig().getBoolean("channels.name." + plugin.currentChannel.get(player.getName()) + ".sendRegardlessOfCurrentChannel") == true) {
+										playerd.sendMessage(ChatColor.translateAlternateColorCodes('&', format(prefix, player, message)));
 									} else {
-										if (plugin.currentChannel.get(playerd.getName()) == plugin.currentChannel
-												.get(player.getName())) {
+										if (plugin.currentChannel.get(playerd.getName()) == plugin.currentChannel.get(player.getName())) {
 											playerd.sendMessage(
-													ChatColor
-															.translateAlternateColorCodes(
-																	'&', format(
-																			plugin.getConfig()
-																					.getString("channels.name."
-																							+ plugin.currentChannel.get(
-																									player.getName())
-																							+ ".prefix"),
-																			player, message)));
+											ChatColor.translateAlternateColorCodes('&', format(
+											plugin.getConfig().getString("channels.name." + plugin.currentChannel.get(
+											player.getName()) + ".prefix"), player, message)));
 										}
 									}
 
 								}
 							}
-							if (permission == plugin.getConfig().getString(
-									"channels.name." + plugin.currentChannel.get(player.getName()) + ".permission")) {
-								prefix = plugin.getConfig().getString(
-										"channels.name." + plugin.currentChannel.get(player.getName()) + ".prefix");
+							if (permission == plugin.getConfig().getString("channels.name." + plugin.currentChannel.get(player.getName()) + ".permission")) {
+								prefix = plugin.getConfig().getString("channels.name." + plugin.currentChannel.get(player.getName()) + ".prefix");
 							}
-							if (plugin.getConfig()
-									.getBoolean("channels.name." + plugin.currentChannel.get(player.getName())
-											+ ".sendRegardlessOfCurrentChannel") == true) {
+							if (plugin.getConfig().getBoolean("channels.name." + plugin.currentChannel.get(player.getName()) + ".sendRegardlessOfCurrentChannel") == true) {
 								player.sendMessage(
-										ChatColor.translateAlternateColorCodes('&', format(prefix, player, message)));
+								ChatColor.translateAlternateColorCodes('&', format(prefix, player, message)));
 							} else {
-								if (plugin.currentChannel.get(player.getName()) == plugin.currentChannel
-										.get(player.getName())) {
+								if (plugin.currentChannel.get(player.getName()) == plugin.currentChannel.get(player.getName())) {
 									player.sendMessage(ChatColor.translateAlternateColorCodes('&', format(
-											plugin.getConfig()
-													.getString("channels.name."
-															+ plugin.currentChannel.get(player.getName()) + ".prefix"),
-											player, message)));
+									plugin.getConfig().getString("channels.name." + plugin.currentChannel.get(player.getName()) + ".prefix"), player, message)));
 								}
 							}
-							Bukkit.getLogger()
-									.info(ChatColor.translateAlternateColorCodes('&', format(
-											plugin.getConfig()
-													.getString("channels.name."
-															+ plugin.currentChannel.get(player.getName()) + ".prefix"),
-											player, message)));
+							Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', format(
+							plugin.getConfig().getString("channels.name." + plugin.currentChannel.get(player.getName()) + ".prefix"), player, message)));
 						}
 
 					});
