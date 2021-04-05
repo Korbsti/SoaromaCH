@@ -16,7 +16,7 @@ public class ChatChannel implements Listener {
 		plugin = instance;
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void chatEvent(AsyncPlayerChatEvent e) {
 		String playerName = e.getPlayer().getName();
 		if (plugin.currentChannel.get(playerName) == null) {
@@ -39,8 +39,7 @@ public class ChatChannel implements Listener {
 					.replace("{player}", e.getPlayer().getDisplayName()).replace("{message}", e.getMessage());
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				if (plugin.hasPlaceholder) {
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-							PlaceholderAPI.setPlaceholders(p.getPlayer(), displayMessage)));
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(e.getPlayer(), displayMessage)));
 				} else {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', displayMessage));
 				}
