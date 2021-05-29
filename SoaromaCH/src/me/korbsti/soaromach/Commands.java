@@ -12,11 +12,11 @@ import org.bukkit.entity.Player;
 
 public class Commands implements CommandExecutor {
 	Main plugin;
-
+	
 	public Commands(Main instance) {
 		this.plugin = instance;
 	}
-
+	
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (label.equalsIgnoreCase("chlist")) {
 			if (sender.hasPermission("ch.list")) {
@@ -30,9 +30,9 @@ public class Commands implements CommandExecutor {
 					for (int x = 0; x != send.size(); x++) {
 						String channel = send.get(x);
 						if (plugin.getConfig().getBoolean("channels.name." + channel + ".chlistDisplayAll") == false
-								&& !channel.equals(plugin.getConfig().getString("channels.name.defaultGlobal"))
-								&& !sender.hasPermission(
-										plugin.getConfig().getString("channels.name." + channel + ".permission"))) {
+						        && !channel.equals(plugin.getConfig().getString("channels.name.defaultGlobal"))
+						        && !sender.hasPermission(
+						                plugin.getConfig().getString("channels.name." + channel + ".permission"))) {
 							if (send.get(x).equals(channel)) {
 								send.remove(x);
 								x = 0;
@@ -42,7 +42,7 @@ public class Commands implements CommandExecutor {
 					holder++;
 				}
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-						(plugin.getConfig().getString("channel-list").replace("{channels}", send.toString()))));
+				        (plugin.getConfig().getString("channel-list").replace("{channels}", send.toString()))));
 				return true;
 			} else {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("noPerm")));
@@ -57,12 +57,14 @@ public class Commands implements CommandExecutor {
 				plugin.channels = new ArrayList<String>();
 				for (String key : allKeys) {
 					if (!key.endsWith("defaultGlobal") && !key.endsWith("defaultGlobalPermission")
-							&& key.startsWith("channels.name.") && !key.endsWith(".permission") && !key.endsWith(".prefix")
-							&& !key.endsWith(".sendRegardlessOfCurrentChannel") && !key.endsWith(".distanceMessage")
-							&& !key.endsWith(".enableDistanceMessage") && !key.endsWith(".messageFormat")
-							&& !key.endsWith(".chlistDisplayAll") && !key.endsWith(".channelExists")
-							&& !key.endsWith(".defaultGlobalMessageFormat") && !key.endsWith(".enableGlobalMessageFormat")
-							&& !key.endsWith(".channelUponJoining")) {
+					        && key.startsWith("channels.name.") && !key.endsWith(".permission") && !key.endsWith(
+					                ".prefix")
+					        && !key.endsWith(".sendRegardlessOfCurrentChannel") && !key.endsWith(".distanceMessage")
+					        && !key.endsWith(".enableDistanceMessage") && !key.endsWith(".messageFormat")
+					        && !key.endsWith(".chlistDisplayAll") && !key.endsWith(".channelExists")
+					        && !key.endsWith(".defaultGlobalMessageFormat") && !key.endsWith(
+					                ".enableGlobalMessageFormat")
+					        && !key.endsWith(".channelUponJoining")) {
 						plugin.channels.add(key.replace("channels.name.", ""));
 					}
 				}
@@ -77,7 +79,7 @@ public class Commands implements CommandExecutor {
 					for (int x = 0; x != plugin.channels.size(); x++) {
 						String channel = plugin.channels.get(x);
 						if (!plugin.getConfig().getBoolean("channels.name." + channel + ".channelExists")
-								&& !channel.equals(plugin.getConfig().getString("channels.name.defaultGlobal"))) {
+						        && !channel.equals(plugin.getConfig().getString("channels.name.defaultGlobal"))) {
 							for (int x1 = 0; x1 != plugin.channels.size(); x1++) {
 								if (plugin.channels.get(x).equals(channel)) {
 									plugin.channels.remove(x);
@@ -93,7 +95,7 @@ public class Commands implements CommandExecutor {
 					plugin.currentChannel.put(p.getName(), plugin.getConfig().getString("channels.name.defaultGlobal"));
 				}
 				sender.sendMessage(
-						ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("reloaded")));
+				        ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("reloaded")));
 				return true;
 			} else {
 				sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("noPerm")));
@@ -106,7 +108,7 @@ public class Commands implements CommandExecutor {
 			}
 			if (args.length == 0 || args.length >= 2) {
 				sender.sendMessage(
-						ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("invalidArgs")));
+				        ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("invalidArgs")));
 				return true;
 			}
 			if (plugin.derp.get(sender.getName()) == null) {
@@ -114,42 +116,49 @@ public class Commands implements CommandExecutor {
 			}
 			if (plugin.currentChannel.get(sender.getName()) == null) {
 				plugin.currentChannel.put(sender.getName(),
-						plugin.getConfig().getString("channels.name.defaultGlobal"));
+				        plugin.getConfig().getString("channels.name.defaultGlobal"));
 			}
 			plugin.channels.forEach(channel -> {
 				if (args[0].toString().equalsIgnoreCase(channel)) {
 					plugin.currentChannel.put(sender.getName(), channel);
+					Player p = (Player) sender;
+					plugin.dataYaml.set(p.getUniqueId().toString() + ".channel", channel);
+					try {
+						plugin.dataYaml.save(plugin.dataFile);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					if (channel == plugin.getConfig().getString("channels.name.defaultGlobal")) {
 						if (sender
-								.hasPermission(plugin.getConfig().getString("channels.name.defaultGlobalPermission"))) {
+						        .hasPermission(plugin.getConfig().getString("channels.name.defaultGlobalPermission"))) {
 							sender.sendMessage(ChatColor.translateAlternateColorCodes('&', plugin.getConfig()
-									.getString("switchedChannel").replace("{channel-name}", channel)));
+							        .getString("switchedChannel").replace("{channel-name}", channel)));
 							plugin.derp.put(sender.getName(), true);
 						} else {
 							sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-									plugin.getConfig().getString("noPerm")));
+							        plugin.getConfig().getString("noPerm")));
 							plugin.derp.put(sender.getName(), true);
 						}
 						return;
 					}
 					if (!sender.hasPermission(plugin.getConfig().getString(
-							"channels.name." + plugin.currentChannel.get(sender.getName()) + ".permission"))) {
-
+					        "channels.name." + plugin.currentChannel.get(sender.getName()) + ".permission"))) {
+						
 						sender.sendMessage(
-								ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("noPerm")));
+						        ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("noPerm")));
 						plugin.derp.put(sender.getName(), true);
 						return;
 					}
 					sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-							plugin.getConfig().getString("switchedChannel").replace("{channel-name}", channel)));
+					        plugin.getConfig().getString("switchedChannel").replace("{channel-name}", channel)));
 					plugin.derp.put(sender.getName(), true);
 					return;
 				}
-
+				
 			});
 			if (plugin.derp.get(sender.getName()) == false) {
 				sender.sendMessage(
-						ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("invalidChannel")));
+				        ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("invalidChannel")));
 			}
 			plugin.derp.put(sender.getName(), false);
 			return true;

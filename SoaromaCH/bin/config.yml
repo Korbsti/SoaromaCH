@@ -1,6 +1,6 @@
 # -------------------
 # SoaromaCM
-# Version 0.0.16
+# Version 0.0.17
 # -------------------
 # To switch back to default chat, the command would be /ch global
 # This takes the variable from defaultGlobal and that would be the "global" channel

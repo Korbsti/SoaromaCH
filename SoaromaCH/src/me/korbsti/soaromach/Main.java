@@ -1,12 +1,16 @@
 package me.korbsti.soaromach;
 
 import me.clip.placeholderapi.PlaceholderAPI;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -22,6 +26,10 @@ public class Main extends JavaPlugin implements Listener {
 	public ArrayList<String> channels;
 	public Boolean hasPlaceholder = false;
 	public Boolean enableGlobalChat = false;
+	
+	public File dataFile;
+	public YamlConfiguration dataYaml;
+	
 	@Override
 	public void onEnable() {
 		PluginManager pm = Bukkit.getPluginManager();
@@ -71,6 +79,20 @@ public class Main extends JavaPlugin implements Listener {
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			currentChannel.put(p.getName(), getConfig().getString("channels.name.defaultGlobal"));
 		}
+		
+		dataFile = new File(this.getDataFolder(), "data.yml");
+		
+		if (!dataFile.exists()) {
+			try {
+				dataFile.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		dataYaml = YamlConfiguration.loadConfiguration(dataFile);
+		
 	}
 
 	@Override

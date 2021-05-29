@@ -35,8 +35,7 @@ public class ChatChannel implements Listener {
 		}
 		if (plugin.currentChannel.get(playerName) == plugin.getConfig().getString("channels.name.defaultGlobal")
 				&& plugin.enableGlobalChat) {
-			String displayMessage = plugin.getConfig().getString("channels.name.defaultGlobalMessageFormat")
-					.replace("{player}", e.getPlayer().getDisplayName()).replace("{message}", e.getMessage());
+			String displayMessage = plugin.getConfig().getString("channels.name.defaultGlobalMessageFormat").replace("{player}", e.getPlayer().getDisplayName()).replace("{message}", e.getMessage());
 			for (Player p : Bukkit.getOnlinePlayers()) {
 				if (plugin.hasPlaceholder) {
 					p.sendMessage(ChatColor.translateAlternateColorCodes('&', PlaceholderAPI.setPlaceholders(e.getPlayer(), displayMessage)));
