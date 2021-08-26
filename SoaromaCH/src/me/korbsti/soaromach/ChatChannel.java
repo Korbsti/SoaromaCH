@@ -16,8 +16,9 @@ public class ChatChannel implements Listener {
 		plugin = instance;
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	
 	public void chatEvent(AsyncPlayerChatEvent e) {
+		if (e.isCancelled()){return}
 		String playerName = e.getPlayer().getName();
 		if (plugin.currentChannel.get(playerName) == null) {
 			plugin.currentChannel.put(playerName, plugin.getConfig().getString("channels.name.defaultGlobal"));
