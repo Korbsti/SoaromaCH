@@ -1,0 +1,11 @@
+name: SoaromaCH
+version: 0.0.18
+description: Chat Channel Plugin
+author: Korbsti
+main: me.korbsti.soaromach.Main
+api-version: 1.16
+softdepend: [PlaceholderAPI]
+commands:
+   ch:
+   chreload:
+   chlist:
